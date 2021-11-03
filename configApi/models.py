@@ -22,8 +22,6 @@ class Video(models.Model):
     cantante = models.CharField(max_length=50)
     titulo = models.CharField(max_length=50)
     url = models.CharField(max_length=100)
-    like =  models.IntegerField(default=0)
-    comentario = models.CharField(max_length=100)
     categoria = models.ForeignKey(Categoria,on_delete=models.CASCADE)
 
     def __str__(self) -> str:
@@ -58,8 +56,8 @@ class Usuario(models.Model):
 class Comentario(models.Model):
     descripcion = models.CharField(max_length=50)
     fecha = models.DateField(default=DateField)
-    video = models.ForeignKey(Video,on_delete=models.CASCADE)
-    usuario = models.ForeignKey(Usuario,on_delete=models.CASCADE)
+    video = models.ForeignKey(Video,on_delete=models.CASCADE,related_name='comentarios')
+    usuario = models.ForeignKey(Usuario,on_delete=models.CASCADE,related_name='comentarios')
 
     class Meta:
         verbose_name='Comentario'
@@ -68,9 +66,8 @@ class Comentario(models.Model):
 
 
 class Like(models.Model):
-    cantLike = models.IntegerField(default=0)
-    video = models.ForeignKey(Video,on_delete=models.CASCADE)
-    usuario = models.ForeignKey(Usuario,on_delete=models.CASCADE)
+    video = models.ForeignKey(Video,on_delete=models.CASCADE,related_name='likes' )
+    usuario = models.ForeignKey(Usuario,on_delete=models.CASCADE,related_name='likes')
 
     class Meta:
         verbose_name='Like'
