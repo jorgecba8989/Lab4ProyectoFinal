@@ -1,19 +1,36 @@
-from rest_framework import permissions
+from rest_framework import serializers
+from login.models import UserProfile
 
-class UpdateOwnProfile(permissions.BasePermission):
+
+class UserProfileSerializer(serializers.ModelSerializer):
     """
-    Allows the user to update his own profile
+    Serializes a user profile object
     """
 
-    def has_object_permission(self, request, view, obj):
-        """
-        Check if the user is trying to update his own profile
-        """
+    class Meta:
+        model = UserProfile
+        fields = ('id', 'email', 'name', 'password')
+        extra_kwargs = {
+            'password': {
+                'write_only': True,
+                'style': {'input_type': 'password'}
+            }
+        }
 
-        allowed_methods = ['PUT', 'GET']
+    def create(self, validated_data):
+        """Create and return a new user"""
+        user = UserProfile.objects.create_user(
+            email=validated_data['email'],
+            name=validated_data['name'],
+            password=validated_data['password']
+        )
 
-        if request.user.is_superuser:
-            return True
+        return user
 
-        if request.method in allowed_methods:
-            return obj.id == request.user.id
+    def update(self, instance, validated_data):
+        """Handle updating user account"""
+        if 'password' in validated_data:
+            password = validated_data.pop('password')
+            instance.set_password(password)
+
+        return super().update(instance, validated_data)
