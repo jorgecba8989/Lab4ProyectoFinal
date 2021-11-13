@@ -5,3 +5,4 @@ from configApi.models import *
 # Register your models here.
 admin.site.register(Categoria)
 admin.site.register(Video)
+admin.site.register(Usuario)

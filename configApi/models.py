@@ -36,8 +36,8 @@ class Usuario(models.Model):
     nombre = models.CharField(max_length=50)
     apellido = models.CharField(max_length=50)
     alias = models.CharField(max_length=50)
-    clave =  models.IntegerField(default=0)
-    clave2 =  models.IntegerField(default=0)
+    clave =  models.CharField(max_length=50)
+    clave2 =  models.CharField(max_length=50)
     correo = models.CharField(max_length=50)
 
     def __str__(self) -> str:
