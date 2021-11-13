@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import Categoria, Video
+from configApi.models import *
+
 
 # Register your models here.
-admin.site.register(Categoria,)
-admin.site.register(Video,)
+admin.site.register(Categoria)
+admin.site.register(Video)

@@ -25,7 +25,7 @@ class Video(models.Model):
     categoria = models.ForeignKey(Categoria,on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return f"{self.titulo} del cantante {self.cantante}"
+        return f"{self.titulo} - {self.cantante}"
 
     class Meta:
         verbose_name='Video'
